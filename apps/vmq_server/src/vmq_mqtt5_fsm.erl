@@ -1044,10 +1044,12 @@ auth_on_register(Password, Props, State) ->
                 allow_unsubscribe=?cap_val(allow_unsubscribe, Args, CAPSettings)
                },
 
+            lager:warning("auth_on_register Args0 ~p",[Args0]),
             ChangedProps = maps:with(
                              [?P_MAX_QOS,
                               ?P_RETAIN_AVAILABLE,
                               ?P_WILDCARD_SUBS_AVAILABLE,
+                              ?P_RESPONSE_INFO,
                               ?P_SUB_IDS_AVAILABLE,
                               ?P_SHARED_SUBS_AVAILABLE], maps:get(properties, Args0,#{})),
             %% for efficiency reason the max_message_size isn't kept in the state
