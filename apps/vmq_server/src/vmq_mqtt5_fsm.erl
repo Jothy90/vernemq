@@ -859,6 +859,7 @@ check_user(#mqtt5_connect{username=User, password=Password, properties=Props} = 
         false ->
             case auth_on_register(Password, Props, State#state{username=User}) of
                 {ok, QueueOpts, OutProps0, NewState} ->
+                    lager:warning("check_user OutProps0 ~p",[OutProps0]),
                     SessionExpiryInterval = maps:get(session_expiry_interval, QueueOpts, 0),
                     register_subscriber(F, maps:merge(OutProps, OutProps0), QueueOpts,
                                         NewState#state{session_expiry_interval=SessionExpiryInterval});
@@ -900,6 +901,8 @@ register_subscriber(#mqtt5_connect{}=F, OutProps0,
             _ = vmq_plugin:all(on_register_m5, [Peer, SubscriberId,
                                                 User, OutProps0]),
             OutProps1 = maybe_set_receive_maximum(OutProps0, ReceiveMax),
+            lager:warning("register_subscriber OutProps0 ~p",
+                                              [OutProps0]),
             check_will(F, SessionPresent, OutProps1,
                        State#state{queue_pid=QPid, next_msg_id=MsgId});
         {error, Reason} ->
@@ -1069,6 +1072,7 @@ auth_on_register(Password, Props, State) ->
                              topic_aliases_in=?state_val(topic_aliases_in, Args, State),
                              cap_settings=ChangedCAPSettings
                             },
+            lager:warning("auth_on_register OutProps0 ~p",[ChangedProps]),
             {ok, queue_opts(Args, maps:merge(Props,ChangedProps)), ChangedProps, ChangedState};
         {error, Reason} ->
             {error, Reason}
