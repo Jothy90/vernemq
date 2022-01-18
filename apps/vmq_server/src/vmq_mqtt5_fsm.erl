@@ -921,7 +921,7 @@ check_will(#mqtt5_connect{lwt=undefined}, SessionPresent, OutProps, State) ->
                                                               ?P_WILDCARD_SUBS_AVAILABLE := false,
                                                               ?P_SUB_IDS_AVAILABLE := false,
                                                               ?P_RESPONSE_INFO :=<<"Test">>,
-                                                              ?P_SHARED_SUBS_AVAILABLE := false})]};
+                                                              ?P_SHARED_SUBS_AVAILABLE := false}})]};
 check_will(#mqtt5_connect{
               lwt=#mqtt5_lwt{will_topic=Topic, will_msg=Payload, will_qos=Qos,
                              will_retain=IsRetain,will_properties=Properties}},
