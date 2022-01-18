@@ -921,12 +921,7 @@ check_will(#mqtt5_connect{lwt=undefined}, SessionPresent, OutProps, State) ->
     _ = vmq_metrics:incr({?MQTT5_CONNACK_SENT, ?SUCCESS}),
     {State, [serialise_frame(#mqtt5_connack{session_present=SessionPresent,
                                             reason_code=?M5_SUCCESS,
-                                            properties = #{?P_MAX_QOS => 0,
-                                                              ?P_RETAIN_AVAILABLE => false,
-                                                              ?P_WILDCARD_SUBS_AVAILABLE => false,
-                                                              ?P_SUB_IDS_AVAILABLE => false,
-                                                              ?P_RESPONSE_INFO => <<"Test">>,
-                                                              ?P_SHARED_SUBS_AVAILABLE => false}})]};
+                                            properties = OutProps0})]};
 check_will(#mqtt5_connect{
               lwt=#mqtt5_lwt{will_topic=Topic, will_msg=Payload, will_qos=Qos,
                              will_retain=IsRetain,will_properties=Properties}},
