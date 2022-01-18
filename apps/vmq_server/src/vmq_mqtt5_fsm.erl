@@ -913,6 +913,8 @@ check_will(#mqtt5_connect{lwt=undefined}, SessionPresent, OutProps, State) ->
     lager:warning("mqtt5_connect OutProps ~p State ~p",
                               [OutProps, State]),
     OutProps0 = maybe_add_topic_alias_max(OutProps, State),
+    lager:warning("mqtt5_connect OutProps0 ~p",
+                                  [OutProps0]),
     _ = vmq_metrics:incr({?MQTT5_CONNACK_SENT, ?SUCCESS}),
     {State, [serialise_frame(#mqtt5_connack{session_present=SessionPresent,
                                             reason_code=?M5_SUCCESS,
